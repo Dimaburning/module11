@@ -79,40 +79,19 @@ const getRandomInt = (min, max) => {
 
 // перемешивание массива!!!
 const shuffleFruits = () => {
-  let result = [];
-  let [...arrayCheck] = [...fruits];
-
-  while (fruits.length > 0) {
-    let index = getRandomInt(0, fruits.length - 1);
-    let deleteElement = fruits.splice(index, 1);
-    result.push(deleteElement[0]);
+  for (let i = fruits.length - 1; i > 0; i--) {
+    const j = getRandomInt(0, i); // случайное число используется как индекс элемента, с которым будет произведена замена
+    [fruits[i], fruits[j]] = [fruits[j], fruits[i]]; // деструктурирующее присваивание
   }
-
- // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
- while (fruits.length > 0) {
-  // TODO: допишите функцию перемешивания массива
-  //
-  // Подсказка: находим случайный элемент из fruits, используя getRandomInt
-  // вырезаем его из fruits и вставляем в result.
-  // ex.: [1, 2, 3], [] => [1, 3], [2] => [3], [2, 1] => [], [2, 1, 3]
-  // (массив fruits будет уменьшатся, а result заполняться)
-  result.push(fruits.splice(getRandomInt(0,fruits.length-1),1)[0]);
-}
-for(let i=0;i<result.length;i++){
-  if(result[i]['color']===tempArray[i]['color']){
-    alert('порядок элементов не изменился');
-    fruits = tempArray;
-    return;
-  }
-}
-sortTimeLabel.textContent='-';
-sortAPI['sorted']=false;
-fruits = result;
+  display(fruits);
 };
 
 shuffleButton.addEventListener('click', () => {
-  shuffleFruits();
-  display();
+  try {
+    shuffleFruits();
+  } catch (error) {
+    alert('Упс, что-то пошло не так... ' + error);
+  }
 });
 
 /*** ФИЛЬТРАЦИЯ ***/
